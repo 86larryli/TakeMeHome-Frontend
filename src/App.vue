@@ -48,6 +48,12 @@
 
 <script>
 export default {
+  mounted() {
+    // No Authentication
+    if (!this.$cookies.isKey("username")) {
+    //   alert("No Authentication");
+    }
+  },
   data() {
     return {
       collapsed: false,
