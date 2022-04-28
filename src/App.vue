@@ -2,16 +2,22 @@
   <a-layout id="components-layout-demo-custom-trigger" style="height: 100%">
     <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
       <div class="logo">Take Me Home</div>
-      <a-menu theme="dark" mode="inline" :default-selected-keys="['1']">
-        <a-menu-item key="1">
+      <a-menu
+        theme="dark"
+        mode="inline"
+        @click="handleClick"
+        :selectedKeys="[$route.path]"
+        :default-selected-keys="['/']"
+      >
+        <a-menu-item key="/">
           <a-icon type="database" />
           <span>Flight Schedule</span>
         </a-menu-item>
-        <a-menu-item key="2">
+        <a-menu-item key="/watchlist">
           <a-icon type="notification" />
           <span>My Watch List</span>
         </a-menu-item>
-        <a-menu-item key="3">
+        <a-menu-item key="/profile">
           <a-icon type="user" />
           <span>User Profile</span>
         </a-menu-item>
@@ -34,21 +40,25 @@
           minHeight: '280px',
         }"
       >
-        <FlightScheduleTable />
+        <router-view />
       </a-layout-content>
     </a-layout>
   </a-layout>
 </template>
 
 <script>
-import FlightScheduleTable from "./components/FlightScheduleTable";
-
 export default {
-  components: { FlightScheduleTable },
   data() {
     return {
       collapsed: false,
     };
+  },
+  methods: {
+    handleClick(item) {
+      if (item.key !== this.$route.path) {
+        this.$router.push(item.key);
+      }
+    },
   },
 };
 </script>
@@ -61,11 +71,9 @@ export default {
   cursor: pointer;
   transition: color 0.3s;
 }
-
 #components-layout-demo-custom-trigger .trigger:hover {
   color: #1890ff;
 }
-
 #components-layout-demo-custom-trigger .logo {
   height: 32px;
   margin: 16px;

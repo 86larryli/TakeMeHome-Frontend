@@ -27,8 +27,8 @@
   </div>
 </template>
 <script>
-import FlightDetailModal from "./FlightDetailModal";
-import global from "../GlobalVars";
+import FlightDetailModal from "@/components/FlightDetailModal";
+import global from "@/GlobalVars";
 import axios from "axios";
 
 const queryData = (params) => {
