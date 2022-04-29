@@ -96,6 +96,9 @@
 </template>
 
 <script>
+import global from "@/GlobalVars";
+import axios from "axios";
+
 export default {
   data() {
     return {
@@ -130,10 +133,18 @@ export default {
   },
   methods: {
     handleSubmit(e) {
+      let self = this;
       e.preventDefault();
       this.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
           console.log("Received values of form: ", values);
+          axios
+            .post(global.requestURL + "/register", values)
+            .then(function (response) {
+              if (response.data.success) {
+                self.$router.push("/login");
+              }
+            });
         }
       });
     },
