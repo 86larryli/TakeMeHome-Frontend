@@ -50,7 +50,7 @@
         Log in
       </a-button>
       Or
-      <a href="/register"> register now! </a>
+      <a @click="$router.push('register')"> register now! </a>
     </a-form-item>
   </a-form>
 </template>
