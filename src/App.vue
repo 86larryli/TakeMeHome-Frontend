@@ -31,6 +31,9 @@
           :type="collapsed ? 'menu-unfold' : 'menu-fold'"
           @click="() => (collapsed = !collapsed)"
         />
+        <span v-if="this.$cookies.isKey('username')" class="username"
+          >Welcome back, {{ this.$cookies.get("username") }}</span
+        >
       </a-layout-header>
       <a-layout-content
         :style="{
@@ -51,7 +54,7 @@ export default {
   mounted() {
     // No Authentication
     if (!this.$cookies.isKey("username")) {
-    //   alert("No Authentication");
+      //   alert("No Authentication");
     }
   },
   data() {
@@ -85,5 +88,10 @@ export default {
   margin: 16px;
   color: #fff;
   font-size: 20px;
+}
+
+.username {
+  float: right;
+  margin-right: 32px;
 }
 </style>

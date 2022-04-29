@@ -72,8 +72,9 @@ export default {
           axios
             .post(global.requestURL + "/login", values)
             .then(function (response) {
-              self.$cookies.set("username", response.data.username);
-              self.$router.push("/");
+              if (response.data.success) {
+                self.$router.push("/");
+              }
             });
         }
       });

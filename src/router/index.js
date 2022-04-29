@@ -57,7 +57,6 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    console.log('Vue.$cookies.keys()', Vue.$cookies.keys());
     if (to.meta.requireAuth && !Vue.$cookies.isKey("username")) {
         next({ path: "/login" });
     } else {

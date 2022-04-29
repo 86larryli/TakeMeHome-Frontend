@@ -93,7 +93,30 @@ export default {
   data() {
     return {
       flight: {},
-      testing: {},
+      testing: {
+        Inactivated: {
+          "Self-Monitoring": {
+            dayOffSet: [],
+          },
+          "PCR 1": {
+            dayOffSet: [],
+            time: "",
+          },
+          "PCR 2": {
+            dayOffSet: [],
+            time: "",
+          },
+          "PCR 3": {
+            dayOffSet: [],
+            time: "",
+            note: "",
+          },
+          "Antigen 1": {
+            dayOffSet: [],
+            time: "",
+          },
+        },
+      },
       loading: false,
       visible: false,
     };

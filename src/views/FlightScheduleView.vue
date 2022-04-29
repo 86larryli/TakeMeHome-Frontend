@@ -17,7 +17,7 @@
       <span slot="action" slot-scope="text, record">
         <a @click="showFlightDetail(record)">Details</a>
         <a-divider type="vertical" />
-        <a @click="underDevNotification">Watch</a>
+        <a @click="addToWatchList(record)">Watch</a>
         <a-divider type="vertical" />
         <a @click="underDevNotification" class="ant-dropdown-link">
           More actions <a-icon type="down" />
@@ -90,6 +90,33 @@ export default {
     this.fetch();
   },
   methods: {
+    addToWatchList(flightSchedule) {
+      if (this.$cookies.isKey("username")) {
+        axios
+          .post(global.requestURL + "/watchlist/add", flightSchedule)
+          .then((response) => {
+            if (response.data.success) {
+              this.openNotificationWithIcon(
+                "success",
+                "Flight Added to Watch List",
+                `${flightSchedule.flightno} on ${flightSchedule.flightdate} has been added to your watch list`
+              );
+            } else {
+              if (response.error === 1) {
+                this.$router.push("/login");
+              } else {
+                this.openNotificationWithIcon(
+                  "info",
+                  "Flight Added to Watch List",
+                  `${flightSchedule.flightno} on ${flightSchedule.flightdate} is already in your watch list`
+                );
+              }
+            }
+          });
+      } else {
+        this.$router.push("/login");
+      }
+    },
     showFlightDetail(flightSchedule) {
       this.$refs.FlightDetailModal.showModal(flightSchedule);
     },
@@ -141,6 +168,13 @@ export default {
         message: "Under Development",
         icon: <a-icon type="smile" style="color: #108ee9" />,
         description: "Sorry, this feature is currently under development...",
+        duration: 4.5,
+      });
+    },
+    openNotificationWithIcon(type, title, description) {
+      this.$notification[type]({
+        message: title,
+        description: description,
         duration: 4.5,
       });
     },
