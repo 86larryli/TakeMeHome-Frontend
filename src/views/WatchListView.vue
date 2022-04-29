@@ -1,5 +1,7 @@
 <template>
   <div class="watchlist">
+    <NotifyPhoneModal ref="NotifyPhoneModal" />
+
     <div class="push-status">
       <h3>Notification Service Status:</h3>
       <a-badge status="success" text="Text Messages" />
@@ -23,7 +25,11 @@
         <span slot="action" slot-scope="text, record">
           <a @click="unwatchFlight(record)">Remove</a>
           <a-divider type="vertical" />
-          <a @click="notify(record)">Send Notification (GRADER ONLY)</a>
+          <a
+            v-if="$cookies.get('username') == 'aitgrader'"
+            @click="showPhoneModal(record)"
+            >Send Notification (GRADER ONLY)</a
+          >
         </span>
       </a-table>
     </div>
@@ -31,6 +37,7 @@
 </template>
 
 <script>
+import NotifyPhoneModal from "@/components/NotifyPhoneModal.vue";
 import global from "@/GlobalVars";
 import axios from "axios";
 
@@ -60,6 +67,7 @@ const columns = [
 ];
 
 export default {
+  components: { NotifyPhoneModal },
   data() {
     return {
       data: [],
@@ -72,8 +80,8 @@ export default {
     this.fetch();
   },
   methods: {
-    notify(watchListRecord) {
-      console.log("watchListRecord", watchListRecord);
+    showPhoneModal(watchListRecord) {
+      this.$refs.NotifyPhoneModal.showModal(watchListRecord);
     },
     unwatchFlight(watchListRecord) {
       axios
@@ -90,7 +98,6 @@ export default {
       queryData({
         ...params,
       }).then(({ data }) => {
-        console.log(data);
         if (data.success) {
           const pagination = { ...this.pagination };
           pagination.total = data.totalCount;

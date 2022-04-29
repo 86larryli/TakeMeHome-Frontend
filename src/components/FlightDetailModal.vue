@@ -3,6 +3,7 @@
     v-model="visible"
     :title="`Flight Detail for ${flight.flightdate} ${flight.flightno}`"
     @ok="handleOk"
+    centered
   >
     <a-descriptions layout="vertical" :column="4" size="middle" bordered>
       <a-descriptions-item label="Flight Date" :span="1">{{
